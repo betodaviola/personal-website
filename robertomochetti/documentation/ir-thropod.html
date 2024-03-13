@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="author" content="Roberto Mochetti">
+    <meta name="description" content="Phone controled IR-Blaster using an ESP8266, a substitute for remote controlers.">
+    <title>IR-thropod</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="icon" type="image/png" href="../images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="../images/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon-precomposed" href="../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../images/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="../images/android-chrome-512x512.png" sizes="512x512">
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="https://kit.fontawesome.com/913023e2fb.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+  	<header>
+			<a  class="title" href="/" title="Home"><span class="contrast">Roberto</span> Mochetti</a>
+			<div class="topnav" id="mytopnav">
+				<a href="../bio" title="Full Biography">Biography</a>
+				<a href="../recordings" title="Viola Masterworks">Recordings</a>
+				<a href="../works" title="My compositions and colaborations">Works</a>
+				<a href="../documentation" title="Documentation for Musical and Non-Musical Projects">Documentation</a>
+				<a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i>
+				</a>
+			</div>
+    </header>
+    <main class="gradient">
+      <article class="text-only">
+        <h1>IR-thropod</h1>
+          <div id="img-txt">
+            <figure>
+              <img class="responsive-img" src="../images/IR-thropod_server.png" alt="Image from the ESP8266 webserver, showing what the IR-thropod user sees on their phone" width="300" style="height: auto;">
+              <figcaption>Image from the ESP8266 webserver, showing what the IR-thropod user sees on their phone</figcaption>
+            </figure>
+          </div>
+          <p>IR-thropod is a phone controlled IR-Blaster hosted at an ESP8266, centralizing the control of more than one appliance that had their own individual remote controller. The full code and documentation can also be found on <a href="https://github.com/betodaviola?tab=repositories" title="Roberto's repositories" target="_blank" rel="noreferrer noopener">my GitHub page <i class="fas fa-external-link"></i></a>.</p>
+          <p>This was my first project using Arduino and my first time using HTML/CSS. Some lines of this code are probably useless, but were kept either because I didn't know what I was doing, or because I wanted to leave them in the code for future reference (such as the ones related to the HOSTNAME).</p>
+          <p>My next steps on this project will be:</p>
+          <ol>
+            <li>Review my code after I learn more about coding for Arduino and HTML (which I currently started studying in a more systematic manner for this very own website).</li>
+            <li>Adding a receiver, to make it easier to reverse-engineer the IR code from future controllers.</li>
+            <li>Add a <a href="https://www.plex.tv/" title="Plex Home Page" target="_blank" rel="noreferrer noopener">Plex <i class="fas fa-external-link"></i></a> button.</li>
+            <li>Make it more aeshtetically pleasing somehow and solder everything in a way that I can still replace the LED in case it burns.</li>
+          </ol>
+          <p>If you are just copying this code, remember to properly fill out the information regarding your own wi-fi on lines 22 and 23:</p>
+          <div class="code-box">
+            <p><code>const char* kSsid = "*****";<br />
+              const char* kPassword = "*****";</code></p>
+          </div>
+          <p>For anyone trying to attempt this, more important than my code are the tutorials I followed to achieve the final results:</p>
+          <ul>
+            <li>Ravi Singh's How to make a DIY IR Blaster using ESP8266: This is the most important tutorial used on this project. Stil, I was very unhappy with the solution of using http shortcuts to control things, since I wanted friends and guests to be able to use the controller as well.</li>
+            <li>ESP32/ESP8266 Web Server: Control Outputs with Momentary Switch, by Random Nerd Tutorials: this short exercise/tutorial helped me grasp the process of creating a button that could be used in place of the links in the screen when accessing the webserver.</li>
+            <li>techtutorialsx's ESP8266 HTTP server: Serving HTML, JavaScript and CSS: this tutorial helped me understand better what I was doing with the Arduino code, and finally helped me style it the way I wanted</li>
+          </ul>
+          <p>As I previously mentioned, the full code can be found in <a href="https://github.com/betodaviola?tab=repositories" title="Roberto's repositories" target="_blank" rel="noreferrer noopener">my GitHub page <i class="fas fa-external-link"></i></a>.</p>
+      </article>
+    </main>
+    <footer>
+      <div class="foot">
+        <p>This website was made with the skills learned from the <a href=https://developer.mozilla.org/en-US/about title="MDN About Page" target="_blank" rel="noopener noreferrer"><abbr title="Mozilla Developer Network">MDN</abbr> Web Docs <i class="fas fa-external-link"></i></a> content. This is not a sponsored footer, only an appreciative note for a high quality, open-source project.</p>
+        <p>For questions and requests about scores, recordings, resumes, music, or anything else, <a href="mailto:robertoviolist@gmail.com">get in touch with me</a>.</p>
+      </div>
+      <div class="fa-wrapper">
+        <a href="https://www.youtube.com/@robertomochetti" title="YouTube Channel" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://github.com/betodaviola?tab=repositories" title="GitHub Repositories" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </footer>
+    <script>
+			function myFunction() {
+  			var x = document.getElementById("mytopnav");
+  			if (x.className === "topnav") {
+    			x.className += " responsive";
+  			} else {
+    			x.className = "topnav";
+  			}
+			} 
+		</script>
+  </body>
+</html>
+

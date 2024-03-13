@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="author" content="Roberto Mochetti">
+    <meta name="description" content="Nerdy details and non-musical projects.">
+    <title>Documentation - Roberto Mochetti</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="icon" type="image/png" href="../images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="../images/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon-precomposed" href="../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../images/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="../images/android-chrome-512x512.png" sizes="512x512">
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="https://kit.fontawesome.com/913023e2fb.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+  	<header>
+			<a  class="title" href="/" title="Home"><span class="contrast">Roberto</span> Mochetti</a>
+			<div class="topnav" id="mytopnav">
+				<a href="../bio" title="Full Biography">Biography</a>
+				<a href="../recordings" title="Viola Masterworks">Recordings</a>
+				<a href="../works" title="My compositions and colaborations">Works</a>
+				<a href="../documentation" title="Documentation for Musical and Non-Musical Projects">Documentation</a>
+				<a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i>
+				</a>
+			</div>
+    </header>
+    <main class="gradient">
+      <article class="text-only">
+        <section>
+          <h1>Documentation</h1>
+          <p>I used to host my documentation privately on <a href="https://www.bookstackapp.com/" title="BookStack is a simple, self-hosted, easy-to-use platform for organising and storing information." target="_blank" rel="noreferrer noopener">BookStack <i class="fas fa-external-link"></i></a>for my own future reference, but I am (slowly) migrating it to this page since it might be helpful to others, and it would be easier for me to share it. If anything, the possibility of having other people looking at it might make me more organized.</p>
+          <p>Some of this documentation is related to my compositions and art projects, but some of it is from non-musical projects that I like to do around my home. Anything important that is not related to Pure Data will also be available on <a href="https://github.com/betodaviola?tab=repositories" target="_blank" rel="noreferrer noopener">my GitHub page <i class="fas fa-external-link"></i></a>.</p>
+          <p>For the musical projects, I used <a href="https://www.purrdata.net/" target="_blank" rel="noreferrer noopener">Purr Data <i class="fas fa-external-link"></i></a>instead of vanilla Pure Data for most of my packages, so if you have a different branch you might need to manually install some libraries to run it, or at least recreate some of the objects yourself.</p>
+          <p>Click on the cards below to access details and specific documentation:</p>
+
+          <a class="card" href="autocanon.html" target="_blank" rel="noreferrer noopener">
+            <img class="card-img" src="../images/documentation_canon-generator.png" alt="Patch that generates canons automatically">
+            <div class="card-txt">
+              <p>Automatic Canon Generator <i class="fas fa-external-link"></i></p>
+              <p>This patch generates canons based on an input. In a live setting, it can be used as part of a larger patch (as I did in my piece <i>Give the Order</i>) that converts the attacks played by a performer into bangs that are fed into this canon generator. Once a bang is sent to the 'start canon' inlet, the patch will immediately start outputting bangs in the same rhythm as the input attacks. One can proportionally change the time interval between the output bangs to be proportionally increased during a performance (through the mensuration multiplier inlet), generating mensuration canons. The most interesting thing is that, because time is measured by Pure Data in millisseconds, those canons are not bounded by the limits of musical notation: the multiplier will work with any positive number bigger than 1, and it can easily generate canons based on live improvisations.</p>
+            </div>
+          </a>
+          <a class="card" href="temporizer.html" target="_blank" rel="noreferrer noopener">
+            <img class="card-img" src="../images/documentation_temporizer.png" alt="Patch that generates rhythmic textures">
+            <div class="card-txt">
+              <p>Temporizer <i class="fas fa-external-link"></i></p>
+              <p>This is by far the biggest and most convoluted patch I have ever created. To use it, you first establish a tactus (in beats per minute) and a matrix of probability (there are some already available in the patch). Each probability corresponds to one or more musical figures, such as a half-note, triplets or thirty-second-notes. When the patch is turned on, it plays random rhythms based on the probability curve you established, outputting these rhythms as bangs that can be used to trigger sonic events. For example, if the probability is 0 for anything but quarter-notes and half-notes, it will output rhythms that are constituted buy those figures only. If only fast rhythms are present, and the tactus is fast enough, the result will be a rich and fast rhythmic structure. These probabilities can be changed in a live performance with a click, and there are also infinite possibilities to transition smoothly or imperceptibly between slow and fast rhythms if enough time is given.</p>
+            </div>
+          </a>
+          <a class="card" href="ir-thropod.html" target="_blank" rel="noreferrer noopener">
+            <span style="max-width: 50%;padding-left:10%;"><img class="card-img" src="../images/IR-thropod_server.png" alt="Screenshot of a remote control inside of a web browser"></span>
+            <div class="card-txt">
+              <p>IR-thropod <i class="fas fa-external-link"></i></p>
+              <p>Phone controlled IR-Blaster using an ESP8266, so I no longer need to have remote controllers in my living room. This was my first project using Arduino and HTML/CSS, which inspired me to create this website from scratch.</p>
+            </div>
+          </a>
+        </section>
+      </article>
+    </main>
+    <footer>
+      <div class="foot">
+        <p>This website was made with the skills learned from the <a href=https://developer.mozilla.org/en-US/about title="MDN About Page" target="_blank" rel="noopener noreferrer"><abbr title="Mozilla Developer Network">MDN</abbr> Web Docs<i class="fas fa-external-link"></i></a> content. This is not a sponsored footer, only an appreciative note about a high quality, open-source project.</p>
+        <p>For questions and requests about scores, recordings, resumes, music, or anything else, <a href="mailto:robertoviolist@gmail.com">get in touch with me</a>.</p>
+      </div>
+      <div class="fa-wrapper">
+        <a href="https://www.youtube.com/@robertomochetti" title="YouTube Channel" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://github.com/betodaviola?tab=repositories" title="GitHub Repositories" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </footer>
+    <script>
+			function myFunction() {
+  			var x = document.getElementById("mytopnav");
+  			if (x.className === "topnav") {
+    			x.className += " responsive";
+  			} else {
+    			x.className = "topnav";
+  			}
+			} 
+		</script>
+  </body>
+</html>

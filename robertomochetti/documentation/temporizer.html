@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="author" content="Roberto Mochetti">
+    <meta name="description" content="Documentation rhythmic texture generator written for Pure Data, used in the piece Give the Order, Part I, by Roberto Mochetti.">
+    <title>Temporizer</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="icon" type="image/png" href="../images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="../images/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon-precomposed" href="../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../images/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="../images/android-chrome-512x512.png" sizes="512x512">
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="https://kit.fontawesome.com/913023e2fb.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+  	<header>
+			<a  class="title" href="/" title="Home"><span class="contrast">Roberto</span> Mochetti</a>
+			<div class="topnav" id="mytopnav">
+				<a href="../bio" title="Full Biography">Biography</a>
+				<a href="../recordings" title="Viola Masterworks">Recordings</a>
+				<a href="../works" title="My compositions and colaborations">Works</a>
+				<a href="../documentation" title="Documentation for Musical and Non-Musical Projects">Documentation</a>
+				<a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i>
+				</a>
+			</div>
+    </header>
+    <main class="gradient">
+      <article class="text-only">
+        <h1>Temporizer, a rhythmic texture generator</h1>
+        <a class="button" href="../files/temporizerx.pd" download="temporizer.pd">DOWNLOAD PATCH (15KB)</a>
+
+        <div class="center-image">
+          <figure>
+            <img class="responsive-img" src="../images/documentation_temporizer.png" alt="screenshot of the patch for the temporizer">
+            <figcaption>Patch image, created on Purr Data</figcaption>
+          </figure>
+        </div>
+        <h2>Description</h2>
+          <p>This patch outputs bangs on semi-randomized rhythms that are based on a pre-stablished probability curve. When these bangs are used to trigger sonic events, interesting rhythmic textures arise. Because of the probability curve, which can be changed live at any time, the person controlling the patch can have some control on how these textures sound, as well as its speed.</p>
+        <h2>How the Patch Works</h2>
+          <p>As seen in the image above, there is a lot to unpack here, and we will start with the second inlet of the patch. Any (float) number sent to this inlet will divide 60,000, and the result will the sent to the left inlet of a [metro] object as the interval of time, in milliseconds, between outputs of the [metro], making it act as a metronome. In other words, whatever number is input into the second outlet will establish the tempo in BPM of a metronome that outputs rhythmically stable bangs inside the patch. This will be the tactus of the rhythmic figures that are output by the temporizer. For convenience, the second outlet in the patch will output bangs in the stablished tactus.</p>
+          <p>The first inlet is used to toggle on and off the [metro] used on the process described above, as well as another [metro] in the patch that will be addressed later, therefore turning the whole patch on and off.</p>
+          <p>If the [metro] object is the beating heart of this patch, its soul must be the [list-wrandom] object. This object will take any list of numbers and use them as a probability curve. For example, if {2 1 0 2} is sent to the right inlet of [list-wwrandom], every time it receives a bang into its left inlet, it will output a random number that has a 40% chance of being 0 (2:5 chance for the first possible outlet), 20% chance of being (1:5 chance for the second possible outlet) 1, 0% change of being 2 (0:5 chance for the third possible outlet), and 40% chance of being 3 (2:5 chance for the fourth possible outlet). This patch uses 15 different rhythmic motives that can be generated, so the probability list chosen by the user should have 15 numbers in it. Whenever a number is output by [list-wrandom] on this patch, it will cause a second [metro] to send bangs subdividing our tactus into either 6 (to generate figures like triplets) or 8 (for figures like eight-notes and sixteenth-notes).</p>
+          <p>These faster bangs are sent to a [counter], that will output numbers from 0 to <i>n</i> in the speed of that subdivision, fitting all these outputs into one beat of our initial metronome. <i>n</i> is also controlled by the output of the [list-wrandom], where figures like eight-note triplets will make the [counter] only output 6 numbers (subdividing the beat into 6) and eight-notes would make the [counter] output 16 numbers.</p>
+          <p>The numbers output by the [counter] are sent into one of the 15 specific parts of the patch that refer to the musical figure initially represented by the output of [list-wrandom], seen at the bottom of the image above. For example, if the output needs to be the 8<sup>th</sup> figure in the probability list (that is, [list-wrandom] outputs number 7), then eight input numbers will be received on this final part of the patch. These 8 numbers (from 0 to 7) will come from the [counter], and they would be sent at a speed (in milliseconds) that corresponds to our tactus divided equally by eight. The patch then only lets some of these numbers be converted into bangs and output by the temporizer. In the case of our example, the 8th musical motive would be an eight-note followed by two sixteenth-notes. If only numbers 0, 4, 6, and 7 of the [counter] are allowed to pass and be converted into bangs by the object [sel 0 4 6 7], the final result will be bangs in the desired rhythm output by temporizer to your main patch.</p>
+        <h2>How to use it</h2>
+          <p>This patch doesn't need any live inputs to work, only a toggle on its first inlet. As previously mentioned, the second inlet controls the tempo (BPM) of the rhythmic motives, and the third inlet can be used to control the probability curve. My favorite way to control the curve it to write the list of numbers inside the patch (as in the example) and link a "radio GUI" to it ([vradio] or [hradio] objects).</p>
+          <p>Roughly, the rhythmic figures on the list go from the slowest (starting with a whole-note, considering that the tactus is in quarter-notes) to fastest (thirty-second-notes and sixteenth-notes are closer to the end of the list). That allows the composer or performer controlling the patch to accurately change the character of the generated texture, gradually or suddenly. More than one temporizer can be used to control the output of notes that are on different pitch registers, and with different values of the probability curve, to create a coral style texture.</p>
+          <p>Bellow, you can see a which figure every number in the probability list corresponds to:</p>
+          <div class="center-image">
+            <figure>
+              <img class="responsive-img" src="../images/documentation_temporizer-figures.png" alt="Available rhythmic motives in the temporizer patch, and its corresponding number in the probability list">
+              <figcaption>Available rhythmic motives in the temporizer patch, and its corresponding position in the probability list.</figcaption>
+            </figure>
+          </div>
+          <p>The temporizer patch does not generate any sound. Its output is only bangs, which can be used to trigger sounds in your main patch or even outside Pure Data.</p>
+        <h2>Problems and Future Improvements</h2>
+         <p>This was the first "complicated" patch I have created while working on Pure Data, and although I reused it on many projects, I think that the lack of skills for organizing a patch is showing. When I have time, I want to clean the patch and possibly break it down into smaller files. This would allow me to easily add more rhythmic motives and increase its complexity.</p>
+         <p>Once the patch is less convoluted, it would be nice to implement ways of drawing and using graphs for the probability curve, instead of inputting data points for each rhythm.</p>
+         <p>Finally, a new version of the patch with some GUI that can allow you to input desired rhythmic motive would be complicated to do, but also very nice to have.</p>        
+      </article>
+    </main>
+    <footer>
+      <div class="foot">
+        <p>This website was made with the skills learned from the <a href=https://developer.mozilla.org/en-US/about title="MDN About Page" target="_blank" rel="noopener noreferrer"><abbr title="Mozilla Developer Network">MDN</abbr> Web Docs <i class="fas fa-external-link"></i></a> content. This is not a sponsored footer, only an appreciative note for a high quality, open-source project.</p>
+        <p>For questions and requests about scores, recordings, resumes, music, or anything else, <a href="mailto:robertoviolist@gmail.com">get in touch with me</a>.</p>
+      </div>
+      <div class="fa-wrapper">
+        <a href="https://www.youtube.com/@robertomochetti" title="YouTube Channel" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://github.com/betodaviola?tab=repositories" title="GitHub Repositories" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </footer>
+    <script>
+			function myFunction() {
+  			var x = document.getElementById("mytopnav");
+  			if (x.className === "topnav") {
+    			x.className += " responsive";
+  			} else {
+    			x.className = "topnav";
+  			}
+			} 
+		</script>
+  </body>
+</html>
+

@@ -1,0 +1,66 @@
+#N canvas 0 0 1370 810 10;
+#X obj 427 388 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X floatatom 239 455 17 0 0 0 - - -, f 17;
+#X obj 238 424 timer;
+#X obj 418 415 t b b;
+#X obj 366 484 list-fifo;
+#X obj 505 603 delay;
+#X obj 504 629 bng 68 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 505 561 t b f;
+#X obj 352 293 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 351 362 counter;
+#X obj 380 292 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 351 387 sel 1;
+#X obj 506 533 * 1;
+#X msg 525 472 1.5;
+#X msg 564 471 2;
+#X msg 602 470 4;
+#X obj 351 412 t b b b;
+#X obj 380 315 t b b;
+#X msg 587 520 1;
+#X text 281 185 attacks in;
+#X text 379 187 reset patch;
+#X text 491 188 mensuration multiplier;
+#X obj 505 716 outlet;
+#X obj 281 210 inlet;
+#X obj 379 212 inlet;
+#X obj 491 213 inlet;
+#X text 163 185 start canon;
+#X obj 163 210 inlet;
+#X obj 163 235 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X connect 0 0 3 0;
+#X connect 1 0 4 1;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 3 1 2 1;
+#X connect 4 0 12 0;
+#X connect 5 0 6 0;
+#X connect 6 0 4 0;
+#X connect 6 0 22 0;
+#X connect 7 0 5 0;
+#X connect 7 1 5 1;
+#X connect 8 0 9 0;
+#X connect 9 0 11 0;
+#X connect 10 0 17 0;
+#X connect 11 0 16 0;
+#X connect 11 1 0 0;
+#X connect 12 0 7 0;
+#X connect 13 0 12 1;
+#X connect 14 0 12 1;
+#X connect 15 0 12 1;
+#X connect 16 0 2 1;
+#X connect 16 1 2 0;
+#X connect 16 2 4 2;
+#X connect 17 0 9 0;
+#X connect 17 1 9 2;
+#X connect 18 0 12 1;
+#X connect 23 0 8 0;
+#X connect 24 0 10 0;
+#X connect 25 0 12 1;
+#X connect 27 0 28 0;
+#X connect 28 0 4 0;

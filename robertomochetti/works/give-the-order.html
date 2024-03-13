@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="author" content="Roberto Mochetti">
+    <meta name="description" content="Give the Order - Part 1, for viola and live electronics.">
+    <title>Give the Order - Part 1</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="icon" type="image/png" href="../images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="../images/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon-precomposed" href="../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../images/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="../images/android-chrome-512x512.png" sizes="512x512">
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="https://kit.fontawesome.com/913023e2fb.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+  	<header>
+			<a  class="title" href="/" title="Home"><span class="contrast">Roberto</span> Mochetti</a>
+			<div class="topnav" id="mytopnav">
+				<a href="../bio" title="Full Biography">Biography</a>
+				<a href="../recordings" title="Viola Masterworks">Recordings</a>
+				<a href="../works" title="My compositions and colaborations">Works</a>
+				<a href="../documentation" title="Documentation for Musical and Non-Musical Projects">Documentation</a>
+				<a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i>
+				</a>
+			</div>
+    </header>
+    <main class="gradient">
+      <div class="yt-works">
+        <div class="responsive-iframe">
+          <iframe src="https://www.youtube.com/embed/hHcEdCPisLg?si=ibfUMsXIg34j-RK2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
+      <article class="text-only">
+        <h1>Give the Order - Part 1, for viola and electronics (2023)</h1>
+        <h2>About the Piece</h2>
+        <p><i>Give the Order</i> is a modular piece, meaning that its form is defined by the performers. Part I and Part II can be performed together or as independent pieces, and more information about Part II will be available when it is completed.</p>
+        <p>The first section is played by the viola alone, either emphasizing the harmony or the textures that will be explored through the piece. The second section is an exploration of mensuration canon techniques, where I search to expand this medieval style of writting by using the technologies we have available now. The final section explores how different rhythm speeds can alter a musical narrative.</p>
+        <p>The violist will choose either module 1a or 1b to be performed as the opening of the piece. The chosen module will be followed by any module that starts with the number 2 (2a, 2b, 2c, or 2d). Finally, either module 3a or 3b will be performed, followed by the coda. To successfully achieve this form, the following strategies can be used by the viola player:</p>
+        <ol>
+          <li>Decide ahead of time which modules will be performed and then print, cut, and assemble them in order. The order of the modules can be informed to the person performing the electronics or that can be kept a secret.</li>
+          <li>Print all the modules and glue them in a large piece of cardboard, as shown in the diagram below. That way, the violist can choose which modules will be played while in a live performance. Only one module on each column will be performed, in the order which they appear from left to right.</li>
+        </ol>
+        <div class="center-image">
+          <figure>
+            <img class="responsive-img" src="../images/give-the-order_diagram.png" alt="Digram displaying the form of Give the Order">
+            <figcaption>Form Diagram (only one module from each column is performed)</figcaption>
+          </figure>
+        </div>
+        <h2>The Patch</h2>
+        <p>There are two versions of the controlling Pure Data (more specifically, <a href="https://www.purrdata.net/" target="_blank" rel="noreferrer noopener">Purr Data <i class="fas fa-external-link"></i></a>) patch. One of them works out of the box, with bell sounds being synthesized on the patch. The second version is slightly modified so it can be connected to a <abbr title="Digital Audio Workstation">DAW</abbr> and use richer sounds that can be synthesized or sampled in a level of quality which I am just not able to match. The only requirement, in case the second version of the patch is used, is that the DAW sounds need to be the sounds of bells, or something as similar to bells as possible.</p>
+        <p>I used the Arturia Soft Bells synthesizer from the Analog Lab IV for this recording. A midi controller can also be connected to the patch to make it easier and more intuitive to control on live performances. In any case, two performers are necessary to play this piece live: a violist and someone controlling the electronics.</p>
+        <div class="center-image">
+          <figure>
+            <img class="responsive-img" src="../images/give-the-order-patch-explanation.jpg" alt="Color-coded of the final patch">
+            <figcaption>Color-coded image of the final patch</figcaption>
+          </figure>
+        </div>
+        <p>Regardless of the violist's choice, the second module played will have an exploration of <a href="https://en.wikipedia.org/wiki/Prolation_canon" target="_blank" rel="noreferrer noopener">mensuration canon techniques <i class="fas fa-external-link"></i></a>. In some modules, such as 2b, the canon is more obvious than in others. My idea was to expand the techniques of a medieval style by using the technologies we have available now.</p>
+        <p>A lot of the viola part consist of improvisation, and the patch works by measuring the interval of time passed between the attacks played by the violist, reproducing those intervals attack sequences with the precision of milliseconds. This means that the canons never sound the same in two different performances.</p>
+        <p>Just as Messiaen and other 20<sup>th</sup> Century composers repurposed the medieval mensuration canon techniques, applying it to their time, I attempted to do the same by bringing it to improvisational and electronic music. You can read more about this part of the patch on its <a href="../documentation/autocanon.html" target="_blank" rel="noreferrer noopener">documentation page</a>.</p>
+        <p>The third performed module uses the part of the patch labeled as "temporizer". The Temporizer creates notes on specific semi-randomized rhythms, guided by a pre-programmed probability curve, while keeping the tactus intact. More information about the Temporizer can be found on its <a href="../documentation/temporizer.html" target="_blank" rel="noreferrer noopener">documentation page</a>.</p>
+      </article>
+    </main>
+    <footer>
+      <div class="foot">
+        <p>This website was made with the skills learned from the <a href=https://developer.mozilla.org/en-US/about title="MDN About Page" target="_blank" rel="noopener noreferrer"><abbr title="Mozilla Developer Network">MDN</abbr> Web Docs <i class="fas fa-external-link"></i></a> content. This is not a sponsored footer, only an appreciative note for a high quality, open-source project.</p>
+        <p>For questions and requests about scores, recordings, resumes, music, or anything else, <a href="mailto:robertoviolist@gmail.com">get in touch with me</a>.</p>
+      </div>
+      <div class="fa-wrapper">
+        <a href="https://www.youtube.com/@robertomochetti" title="YouTube Channel" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://github.com/betodaviola?tab=repositories" title="GitHub Repositories" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </footer>
+    <script>
+			function myFunction() {
+  			var x = document.getElementById("mytopnav");
+  			if (x.className === "topnav") {
+    			x.className += " responsive";
+  			} else {
+    			x.className = "topnav";
+  			}
+			} 
+		</script>
+  </body>
+</html>
+

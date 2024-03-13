@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="author" content="Roberto Mochetti">
+    <meta name="description" content="Documentation for an automatic canon generator writen for Pure Data, used in the piece Give the Order, Part I, by Roberto Mochetti.">
+    <title>Canon Generator</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="icon" type="image/png" href="../images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="../images/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon-precomposed" href="../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../images/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="../images/android-chrome-512x512.png" sizes="512x512">
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="https://kit.fontawesome.com/913023e2fb.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+  	<header>
+			<a  class="title" href="/" title="Home"><span class="contrast">Roberto</span> Mochetti</a>
+			<div class="topnav" id="mytopnav">
+				<a href="/bio" title="Full Biography">Biography</a>
+				<a href="/recordings" title="Viola Masterworks">Recordings</a>
+				<a href="/works" title="My compositions and colaborations">Works</a>
+				<a href="/documentation" title="Documentation for Musical and Non-Musical Projects">Documentation</a>
+				<a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a>
+			</div>
+    </header>
+    <main class="gradient">
+      <article class="text-only">
+        <h1>Automatic Canon Generator</h1>
+        <a class="button" href="../files/mensuration-canon.pd" download="automatic-canon-generator.pd">DOWNLOAD PATCH (1.6KB)</a>
+
+        <div class="center-image">
+          <figure>
+            <img class="responsive-img" src="../images/documentation_canon-generator.png" alt="screenshot of the patch for the automatic canon generator">
+            <figcaption>Patch image, created on Purr Data</figcaption>
+          </figure>
+        </div>
+        <h2>Description</h2>
+          <p>This patch was first used in the piece <a href="../works/give-the-order.html" target="_blank" rel="noopener noreferrer"><i>Give the Order</i> - Part I <i class="fas fa-external-link"></i></a>. It generates rhythmic <a href="../works-pages/give-the-order.html" title="Canon (music) - Wikipedia" target="_blank" rel="noopener noreferrer">canons</a> based on an input.</p>
+          <p>The most important aspects of this patch are:
+            <ul>
+              <li>Besides being able to generate canons in the most conventional style, it allows for a "multiplier" number to be input, creating mensuration canons. Different from mensuration canons created without digital intervention, there is full control of the proportion between the leader voice and the follower voice(s). This means that, with this patch, these proportional alterations of tempo are no longer tied to musical notation (where, for example, a quarter-note in the leader voice would have to be equal to some other specific rhythmic figure), but are controlled with millisecond precision.</li>
+              <li>These proportions can also change gradually during the piece. For example: the follower voice can start by imitating the leader voice perfectly, but gradually slow down until the quarter-note in the leader voice now corresponds to a half-note in the follower voice. This can be done by simply starting the canon with the value of 1 as the mensuration multiplier, and then gradually increase it until it reaches the value of 2.</li>
+              <li>The leader voice can be the one of an improvisation. The patch will follow whatever the performer is playing (galthough, depending on the method used to analyze the performer's attacks in real time, not all kinds of articulation are possible).</li>
+            </ul>
+        <h2>How the Patch Works</h2>
+          <p>The attacks from the melody to be used as the leader voice of the canon enter as a bang through the second inlet of the patch, going straight to the first inlet of the [counter] object. This will trigger a few important events:</p>
+            <ul>
+              <li>A bang is sent to the right inlet of the object [timer], making it output the elapsed time that passed between the current and the previous bang received in milliseconds.</li>
+              <li>Another bang immediately resets the timer down to 0, and it restarts counting until the next bang arrives.</li>
+              <li>If the [counter] output equals to 1 (that is, only the first note of the leader voice came through the inlet), a bang is first sent to the left inlet of the [timer] to first restart it, and then another bang is sent to its right inlet outputting a 0. This assures that the follower voice will start immediately when the patch is triggered.</li>
+              <li>Additionally, and object that is storing the outputs of the [timer] also receives a bang (more about this list later).</li>
+            </ul>
+            <p>The outputs of the object [timer] are sent to [list-fifo]. This object stores floats as a list, and then outputs them in the same order these list items are received (fifo stands for "first in, first, out) whenever a bang is sent to its left inlet.</p>
+            <p>When a bang is sent to the left inlet of the canon generator, it immediately triggers the start of the follower voice by sending the first item on the [list-fifo] list (which will always be 0) as the variable of a [delay] object, and a bang to the [delay] inlet (which will not be delayed since the variable is 0). This bang will be then immediately sent to the canon generator outlet.</p>
+            <p>Besides going to the outlet of the patch, this bang will also be sent back to [list-fifo], causing it to send another pair of float (next item on the list) and bang. Now, the variable of the [delay] will change with each number of the list, delaying the outlet bang just the right amount for it to mimic the timings of the performer’s attacks, and when this bang it is sent back to [list-fifo], it assures that this process keeps repeating.</p>
+            <p>I certainly appreciate the cyclical nature of this patch, which triggers its next step with its own output, generating the next output in the process. This reminds me of some works and papers by Damián Keller, and it is something that I want to explore more moving forward.</p>
+            <p>The process is repeated for every item on the list until a bang is sent to the third inlet of the canon generator, restarting the counter.</p>
+            <p>An input (float, bigger than one) sent to rightmost inlet in the canon generator will be multiplied by the list items before they are sent to the delay, transforming the regular canon into a mensuration canon.</p>
+        <h2>How to Use It</h2>
+          <p>This patch only handles the necessary logic behind canons, and it does not outputs any sound or handles the attack identification of an input, which is necessary for its work. This allows for an easier implementation of the patch on different creative endeavors.</p>
+          <p>In the piece <i>Give the Order - Part I</i>, I used a [fiddle~] object, which already sends a bang through its second outlet every time it detects a new attack. There are problems with this method, which will be further discussed below.</p>
+          <p>I then used the output bang of the canon generator patch to trigger random midi notes from a pre-established truncation of Messiaen's third <a href="https://en.wikipedia.org/wiki/Mode_of_limited_transposition" title="Modes of Limited Transposition - Wikipedia" target="_blank" rel="noopener noreferrer">Mode of Limited Transposition <i class="fas fa-external-link"></i></a>. These midi notes were initially translated into frequencies with the [mtof] object and used to control synthetic bell sounds on Pure Data, but I later decided to send the midi info to Bitwig and use the Arturia Soft Bells synthesizer from the Analog Lab IV for the recording above.</p>
+          <p>It is also worth noting that the patch is light, allowing for it to be copied and used to generate canons with several voices.</p>
+        <h2>Problems and Future Improvements</h2>
+          <p>The main change I would like to implement on this patch is to find a better solution for detecting attacks from the microphone input. [fiddle~] is great for more percussive techniques, such as pizzicato or even very dry staccatos, but it fails identify attacks in long, connected notes. Still, I honestly have no idea how to fix this, since it probably means that I would have to move away from detecting attacks based on amplitude like, to my understanding, [fiddle~] does.</p>        
+      </article>
+    </main>
+    <footer>
+      <div class="foot">
+        <p>This website was made with the skills learned from the <a href=https://developer.mozilla.org/en-US/about title="MDN About Page" target="_blank" rel="noopener noreferrer"><abbr title="Mozilla Developer Network">MDN</abbr> Web Docs <i class="fas fa-external-link"></i></a> content. This is not a sponsored footer, only an appreciative note for a high quality, open-source project.</p>
+        <p>For questions and requests about scores, recordings, resumes, music, or anything else, <a href="mailto:robertoviolist@gmail.com">get in touch with me</a>.</p>
+      </div>
+      <div class="fa-wrapper">
+        <a href="https://www.youtube.com/@robertomochetti" title="YouTube Channel" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://github.com/betodaviola?tab=repositories" title="GitHub Repositories" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </footer>
+    <script>
+			function myFunction() {
+  			var x = document.getElementById("mytopnav");
+  			if (x.className === "topnav") {
+    			x.className += " responsive";
+  			} else {
+    			x.className = "topnav";
+  			}
+			} 
+		</script>
+  </body>
+</html>
+
