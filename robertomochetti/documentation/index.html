@@ -36,7 +36,14 @@
           <p>Some of this documentation is related to my compositions and art projects, but some of it is from non-musical projects that I like to do around my home. Anything important that is not related to Pure Data will also be available on <a href="https://github.com/betodaviola?tab=repositories" target="_blank" rel="noreferrer noopener">my GitHub page <i class="fas fa-external-link"></i></a>.</p>
           <p>For the musical projects, I used <a href="https://www.purrdata.net/" target="_blank" rel="noreferrer noopener">Purr Data <i class="fas fa-external-link"></i></a>instead of vanilla Pure Data for most of my packages, so if you have a different branch you might need to manually install some libraries to run it, or at least recreate some of the objects yourself.</p>
           <p>Click on the cards below to access details and specific documentation:</p>
-
+          <a class="card" href="dicetone.html" target="_blank" rel="noreferrer noopener">
+            <img class="card-img" src="../images/documentation_dicetone.png" alt="Synthesizer that applies stochastic ideas to timbre.">
+            <div class="card-txt">
+              <p>diceTone~ <i class="fas fa-external-link"></i></p>
+              <p>diceTone~ is my attempt to create a synthesizer that generates stochastic timbres by using waveshaping . To do that, a waveform, chosen by the user, serves as an input signal. The waveform is then sent to a shaping function that changes randomly over time, affecting the output signal and timbre.</p>
+              <p>It is my understanding that the envelope also plays a big part in how we perceive timbre. This is the one of the reasons why I chose waveshaping as the basis of my synthesis: in waveshapping, the initial, larger amplitude of a sharp attack would alter how much of the shapping functions is used, momentarily altering the timbre. For the same reason, I this patch also gives the option of a randomized ADSR</p>
+            </div>
+          </a>
           <a class="card" href="autocanon.html" target="_blank" rel="noreferrer noopener">
             <img class="card-img" src="../images/documentation_canon-generator.png" alt="Patch that generates canons automatically">
             <div class="card-txt">

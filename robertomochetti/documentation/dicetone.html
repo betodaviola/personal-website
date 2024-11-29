@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="author" content="Roberto Mochetti">
+    <meta name="description" content="Synthesizer that applies stochastic ideas to timbre.">
+`
+    <title>diceTone~</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="icon" type="image/png" href="../images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="../images/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon-precomposed" href="../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../images/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="../images/android-chrome-512x512.png" sizes="512x512">
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="https://kit.fontawesome.com/913023e2fb.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+  	<header>
+			<a  class="title" href="/" title="Home"><span class="contrast">Roberto</span> Mochetti</a>
+			<div class="topnav" id="mytopnav">
+				<a href="../bio" title="Full Biography">Biography</a>
+				<a href="../recordings" title="Viola Masterworks">Recordings</a>
+				<a href="../works" title="My compositions and colaborations">Works</a>
+				<a href="../documentation" title="Documentation for Musical and Non-Musical Projects">Documentation</a>
+				<a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i>
+				</a>
+			</div>
+    </header>
+    <main class="gradient">
+      <article class="text-only">
+        <h1>diceTone~, a stochastic synthesizer</h1>
+        <a class="button" href="../files/dicetone.zip" download="diceTone.zip">DOWNLOAD PATCH AND DEPENDENCY (1KB)</a>
+
+        <div class="center-image">
+          <figure>
+            <img class="responsive-img" src="../images/documentation_dicetone.png" alt="screenshot of the patch for the diceTone~">
+            <figcaption>Patch image, created on Purr Data</figcaption>
+          </figure>
+        </div>
+        <h2>Description</h2>
+          <p>diceTone~ is my attempt to create a synthesizer that generates timbres in a <a href="https://en.wikipedia.org/wiki/Stochastic" title="Wikipedia" target="_blank" rel="noopener noreferrer">stochastic <i class="fas fa-external-link"></i></a> way by using <a href="https://en.wikipedia.org/wiki/Waveshaper" title="Wikipedia" target="_blank" rel="noopener noreferrer">waveshaping <i class="fas fa-external-link"></i></a>. To do that, a waveform, chosen by the user, serves as an input signal. The waveform is then sent to a shaping function that changes randomly over time, affecting the output signal and timbre.</p>
+          <p>It is well known that envelope also plays a big part in how we perceive timbre. This is the one of the reasons why I chose the method on this patch to change the input wave, making the initial, larger amplitude of a sharp attack alter how much of the shapping functions is used, momentarily altering the timbre. For the same reason, this patch also allows for the option of a randomized <abbr title="Attack, Decay, Sustain, and Release">ADSR</abbr>.</p>
+          <p>The patch is easy to use, and the pitch and volume can be easily controlled.</p>
+        <h2>How the Patch Works</h2>
+          <p>When a midi controller is plugged to the patch, midi notes are converted into frequencies and unnecessary midi data is stripped away with the [midiControl] patch (included on the download link above). The pitch information is sent the oscillator that corresponds to one of the waveshape options, and the velocity information will control the variable that determines the peak of the attack, a float variable ranging from 0 to 1.</p>
+          <p>Every time a new note is sent, the signal will be amplified to its maximum value, and fall to 80% of said value. The time that it takes for it to fall is randomly generated every time a note is played. This accounts for the aforementioned momentary timbre difference that occurs at each attack.</p>
+          <p>After a few calculations to size the soundwave correctly for the actual synthesis, the signal is sent to the array <i>spect</i>,through the object [tableread~ spect], where the actual waveshapping happens. The <i>spect</i> array is the shaping function, and it can be seen at any time on the left of the patch, on top of the array <i>result</i> that shows the final wave after the waveshaping has happened. Before being sent to the <abbr title="Digital to Analogue Converter">DAC</abbr> and output, the signal passes through a final multiplication that controls the sound's ADSR.</p>
+          <p>In the rightmost part of the patch is the code that constantly changes the shaping function in random ways. To do that, three random numbers are generated, this is what they do:</p>
+            <ul>
+              <li>Determines the new value of one of the 25 datapoints in the shaping function, from -1 to 1.</li>
+              <li>Determines how long it will take to achieve this value. The range for this variable can be changed by the user, and it affects how fast or slow the timbre will be constantly changing. After the user chooses this variable (<i>n</i>), the random number generated will be between <i>n</i>/10 and <i>n</i>, where the chosen <i>n</i> can be between 200 and 10,000. The default value of <i>n</i> is 400.</li>
+              <li>Finally, the last random number determines which of the 25 datapoints will be altered.</li>
+            </ul>
+          <p>Once a datapoint achieves its randomly selected value, another one will immediately start to go through the same process, so the timbre is always changing.</p>
+          <p>Around the middle part of the patch, we have the code that handles the ADSR. For that, 4 random numbers are created: attack and decay time (both ranging from 10 to 210 milliseconds), sustain level (as a percentage of the peak level of the envelope that happens right after the attack, varying between 50% and 95%), and release (ranging from 10 to 510 milliseconds). There are also number boxes that allow the user to change some of these ranges. These random numbers are generated by the [drunk] object rather than the widely used [random] object, since the gradual changes between the numbers sounded better for what I wanted, but that can be easily changed.</p>
+          <p>Further down, the code assures that the ADSR variables are handled correctly, triggering the right changes in envelope at the right time. It is then connected to the [*~] that is multiplying the output signal of the waveshaping.</p>
+        <h2>How to use it</h2>
+          <p>The controls and the arrays are on the left part of the patch in a little GUI. From top to bottom:</p>
+            <ul>
+              <li>On/off toggle</li>
+              <li>Waveshape input: options being the sine wave, sawtooth wave, or triangular wave (ramp).The default is the sine wave.</li>
+              <li>Rate of change: number <i>n</i> that determines how fast the random changes will occur in the shaping function, which will always be a random value in milliseconds between <i>n</i>/10 and <i>n</i>. <i>n</i> can be any number between 200, for very fast timbral changes, and 10,000 for very slow ones. I found both extremes problematic for short improvisations, since the lower value changes the timbre so quick that it loses its stochastic characteristics, and the higher extreme has the changes being too subtle. Still, I kept this range available so I can easily use it on future works, and the default rate of change is <i>n</i>=400, which for me felt like a sweet spot.</li>
+              <li><i>spect</i> and <i>result</i> arrays, for visualization only. <i>spect</i> is the shapping functions and <i>result</i> is the final signal before ADSR. </li>
+              <li>Randomize ADSR toggle: off by default.</li>
+              <li>ADSR controls: these will be overridden if the randomize ADSR toggle is on. The default value is 30 milliseconds for the attack, decay, and release time, as well as 30% of the peak level for the sustain level.</li>
+            </ul>
+        <h2>Future Improvements</h2>
+          <p>There are some improvements that I want to make on this patch in the future, but still haven't been implemented because I wanted to avoid too many abstractions in it, and because it serves my current purpose as it is. These improvements are:</p>
+          <ul>
+            <li>Implement similar ideas to generate pitchless, noise based and percussive sounds in addition to the pitched ones.</li>
+            <li>Being able to toggle different processes for the random changes in the spectrum of the chosen waveform. I like how the waveshaping method sounds, but it would be nice to also have less "squary" and harsh signals as the result when I want to.</li>
+            <li>Being able to toggle between [random] and [drunk] objects for any part of the patch, whenever I want, while keeping the patch running with the current variables.</li>
+            <li>Add filters to the decay part of the envelope, so there is a randomized change of timbre just like it happens during the attack.</li>
+          </ul>         
+      </article>
+    </main>
+    <footer>
+      <div class="foot">
+        <p>This website was made with the skills learned from the <a href=https://developer.mozilla.org/en-US/about title="MDN About Page" target="_blank" rel="noopener noreferrer"><abbr title="Mozilla Developer Network">MDN</abbr> Web Docs <i class="fas fa-external-link"></i></a> content. This is not a sponsored footer, only an appreciative note for a high quality, open-source project.</p>
+        <p>For questions and requests about scores, recordings, resumes, music, or anything else, <a href="mailto:robertoviolist@gmail.com">get in touch with me</a>.</p>
+      </div>
+      <div class="fa-wrapper">
+        <a href="https://www.youtube.com/@robertomochetti" title="YouTube Channel" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://github.com/betodaviola?tab=repositories" title="GitHub Repositories" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </footer>
+    <script>
+			function myFunction() {
+  			var x = document.getElementById("mytopnav");
+  			if (x.className === "topnav") {
+    			x.className += " responsive";
+  			} else {
+    			x.className = "topnav";
+  			}
+			} 
+		</script>
+  </body>
+</html>
+
